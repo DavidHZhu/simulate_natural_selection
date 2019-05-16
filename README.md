@@ -1,11 +1,10 @@
 # Simulate Natural Selection
 
 ## Installation
-#Windows
-#Mac/Linux
+**Windows**
 Clone the repo and run `npm install`
 Start the server with `npm start`
 
-#Mac/Linux
+**Mac/Linux**
 Clone the repo and run `yarn install`
 Start the server with `yarn start`
