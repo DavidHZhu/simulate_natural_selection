@@ -1,11 +1,17 @@
-import Game from "./Game";
+//import Game from "./Game";
 
-const game = new Game();
+//const game = new Game();
+let ANGLE = 0;
 
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(640, 480, WEBGL);
 }
 
 function draw() {
-  game.draw();
+  //game.draw();
+  ANGLE += 0.01;
+  background(0);
+  camera(80, -100, 80, 0, 0, 0, 0, 1, 0);
+  rotateY(ANGLE);
+  box(100, 10, 100);
 }
