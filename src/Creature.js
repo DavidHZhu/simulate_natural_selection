@@ -5,7 +5,7 @@ export default class Creature {
     this.genes = genes;
   }
 
-  draw() {
-    ellipse(50, 50, 80, 80);
+  draw(p5) {
+    p5.ellipse(this.x, this.y, this.x + this.genes.size,this.y + this.ggienes.size);
   }
 }

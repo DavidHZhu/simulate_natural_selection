@@ -8,7 +8,7 @@ export default class Game {
       size: 30
     }))
   }
-  draw() {
-    this.creatures.forEach((creature) => creature.draw());
+  draw(p5) {
+    this.creatures.forEach((creature) => creature.draw(p5));
   }
 }
