@@ -23,7 +23,7 @@ export default class Creature {
   }
 
   birthChild() {
-    let childGenes = {...this.genes};
+    let childGenes = this.genes;
 
     if (Math.random() < MUTATE_CHANCE) {
       childGenes = Genes.randomGenes();

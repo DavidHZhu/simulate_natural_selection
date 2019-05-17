@@ -1,5 +1,5 @@
 import {getRandomFloat, getRandomInt} from "./Helpers";
-import {SKILL_POINTS} from "./Constants";
+import {SKILL_POINTS, SMALL_MUTATIONS} from "./Constants";
 
 export default class Genes {
   constructor(size, speed, distance) {
@@ -7,6 +7,30 @@ export default class Genes {
     this.speed = speed;
     this.distance = distance;
   };
+
+  mutatedGenes() {
+    if (SMALL_MUTATIONS) {
+      let newGenes = [this.size, this.speed, this.distance];
+
+      const from = getRandomInt(newGenes.length);
+      let to = from;
+      while (to === from) {
+        to = getRandomInt(newGenes.length);
+      }
+
+      let amount = 10;
+      while (amount > newGenes[from]) {
+        amount = getRandomFloat(SKILL_POINTS);
+      }
+
+      newGenes[from] -= amount;
+      newGenes[to] += amount;
+
+      return new Genes(...newGenes);
+    } else {
+      return Genes.randomGenes();
+    }
+  }
 
   static randomGenes() {
     let genes = [0,0,0]; // one 0 for each gene
@@ -23,4 +47,5 @@ export default class Genes {
 
     return new Genes(...genes)
   }
+
 }

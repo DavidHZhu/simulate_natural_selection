@@ -1,5 +1,7 @@
 // Creatures
 export const MUTATE_CHANCE = 0.05;
+export const SMALL_MUTATIONS = true;
+
 export const KINETIC_ENERGY = 10;
 export const MIN_SIZE = 5;
 export const SKILL_POINTS = 10;
