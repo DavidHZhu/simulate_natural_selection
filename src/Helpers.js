@@ -22,5 +22,11 @@ export function getNearest(target, others) {
 }
 
 export function getRandomInt(max) {
+  // not including max
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+export function getRandomFloat(max) {
+  // not including max
+  return Math.random() * max;
 }

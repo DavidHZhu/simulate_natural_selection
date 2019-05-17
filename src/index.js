@@ -1,13 +1,13 @@
 import Game from "./Game";
 import * as p5 from 'p5';
-import {TICKS_PER_FRAME} from "./Constants";
+import {N_FOOD, TICKS_PER_FRAME} from "./Constants";
 
 let s = (p5) => {
   let game;
   // let ANGLE = 0;
 
   p5.setup = () =>{
-    game = new Game(window.innerWidth, window.innerHeight, 15);
+    game = new Game(window.innerWidth, window.innerHeight, N_FOOD);
 
     p5.createCanvas(window.innerWidth,window.innerHeight);
     p5.background(40);

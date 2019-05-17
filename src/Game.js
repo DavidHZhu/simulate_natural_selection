@@ -1,7 +1,8 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, MIN_SIZE, RED, TICKS_PER_FRAME} from "./Constants";
+import {BLUE, MIN_SIZE, N_FOOD, RED, TICKS_PER_FRAME} from "./Constants";
 import {getRandomInt} from "./Helpers";
+import Genes from "./Genes";
 
 export default class Game {
   constructor(width, height, n) {
@@ -30,6 +31,14 @@ export default class Game {
         this.nextGen();
       }
     }
+
+    if (this.allStopped()) {
+      this.nextGen();
+    }
+  }
+
+  allStopped() {
+    return this.creatures.filter((creature) => creature.speed > 0).length === 0;
   }
 
   state() {
@@ -50,14 +59,24 @@ export default class Game {
   }
 
   nextGen() {
-    let avg = 0;
+    let avg_size = 0;
+    let avg_speed = 0;
+    let avg_distance = 0;
 
-    this.creatures.forEach((creature) => avg += creature.genes.size);
+    const n = this.creatures.length;
+
+    this.creatures.forEach((creature) => {
+      avg_speed += creature.genes.speed;
+      avg_size += creature.genes.size;
+      avg_distance += creature.genes.distance;
+    });
 
     this.generations.push({
       gen: this.gen++,
       creatures: this.creatures,
-      avg_size: avg/this.creatures.length
+      avg_size: avg_size/n,
+      avg_speed: avg_speed/n,
+      avg_distance: avg_distance/n
     });
 
     const oldCreatures = this.creatures;
@@ -76,7 +95,7 @@ export default class Game {
       creature.y = getRandomInt(this.height);
     });
 
-    this.genFood(this.creatures.length);
+    this.genFood(N_FOOD);
 
     console.log(this.generations);
 
@@ -86,10 +105,7 @@ export default class Game {
     this.creatures = [];
 
     for (let i = 0; i < n; i++) {
-      this.creatures.push(new Creature(getRandomInt(this.width),getRandomInt(this.height), {
-        size: getRandomInt(50 - MIN_SIZE) + MIN_SIZE,
-        speed: 1
-      }))
+      this.creatures.push(new Creature(getRandomInt(this.width),getRandomInt(this.height), Genes.randomGenes()))
     }
 
     this.genFood(n );
