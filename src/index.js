@@ -1,5 +1,5 @@
 import Game from "./Game";
-import * as p5 from './p5.min.js';
+import * as p5 from 'p5';
 
 const g = new Game();
 let ANGLE = 0;
@@ -8,7 +8,6 @@ let s = (p5) => {
   p5.setup = () =>{
     p5.createCanvas(window.innerWidth,window.innerHeight, p5.WEBGL);
     p5.background(40);
-    console.log('test');
   };
 
   p5.draw = () => {
