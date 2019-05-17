@@ -1,48 +1,50 @@
-const MUTATE_CHANCE = 0.1;
+import { getNearestDetails } from "./VectorMath";
+
+const MUTATE_CHANCE = 0.05;
 
 export default class Creature {
   constructor(x, y, genes) {
     this.x = x;
     this.y = y;
     this.genes = genes;
+    this.foodEaten = 0;
   }
 
   draw(p5) {
     p5.circle(this.x, this.y, this.genes.size);
   }
 
-  mutate() {
+  birthChild() {
+    const childGenes = {...this.genes};
+
     if (Math.random() < MUTATE_CHANCE) {
-      this.genes.size = Math.random() * 50;
+      childGenes.size = Math.random() * 50;
     }
+
+    return new Creature(this.x, this.y, childGenes);
   }
 
   tick(state) {
     this.state = state;
-    this.move();
-  }
 
-  move() {
-    this.moveTowards(this.getNearest(this.state.food));
-  }
+    const nearestFood = getNearestDetails(this, this.state.food);
 
-  getNearest(objs) {
-    const distances = [...objs].map((obj) => {
-      return {
-        distance: Math.hypot(obj.x - this.x, obj.y - this.y),
-        obj: obj
-      }
-    });
-
-    let min = distances[0], max = distances[0];
-
-    for (let i = 1, len=distances.length; i < len; i++) {
-      let v = distances[i];
-      min = (v.distance < min.distance) ? v : min;
-      max = (v.distance > max.distance) ? v : max;
+    if (this.state.food.length === 0) {
+      return;
     }
+    this.moveTowards(nearestFood.ref);
 
-    return min.obj;
+    if (nearestFood.distance < nearestFood.ref.size/2 + this.genes.size/2) {
+      // in range, eat food
+      this.eat(nearestFood.ref);
+    }
+  }
+
+  eat(food) {
+    // remove from arr
+    this.state.food = this.state.food.filter((ref) => ref !== food);
+
+    this.foodEaten++;
   }
 
   moveTowards(obj) {
