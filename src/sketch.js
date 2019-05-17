@@ -1,7 +1,6 @@
 //import Game from "./Game";
 
 //const game = new Game();
-let ANGLE = 0;
 
 function setup() {
   createCanvas(640, 480, WEBGL);
