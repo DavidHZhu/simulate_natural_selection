@@ -1,6 +1,6 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, RED} from "./Constants";
+import {BLUE, MIN_SIZE, RED, TICKS_PER_FRAME} from "./Constants";
 import {getRandomInt} from "./Helpers";
 
 export default class Game {
@@ -23,10 +23,12 @@ export default class Game {
   }
 
   tick() {
-    this.creatures.forEach((creature) => creature.tick(this.state()));
+    for (let i = 0; i < TICKS_PER_FRAME; i++) {
+      this.creatures.forEach((creature) => creature.tick(this.state()));
 
-    if (this.food.length === 0) {
-      this.nextGen();
+      if (this.food.length === 0) {
+        this.nextGen();
+      }
     }
   }
 
@@ -85,7 +87,7 @@ export default class Game {
 
     for (let i = 0; i < n; i++) {
       this.creatures.push(new Creature(getRandomInt(this.width),getRandomInt(this.height), {
-        size: getRandomInt(49) + 1,
+        size: getRandomInt(50 - MIN_SIZE) + MIN_SIZE,
         speed: 1
       }))
     }

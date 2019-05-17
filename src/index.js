@@ -1,5 +1,6 @@
 import Game from "./Game";
 import * as p5 from 'p5';
+import {TICKS_PER_FRAME} from "./Constants";
 
 let s = (p5) => {
   let game;
@@ -10,6 +11,7 @@ let s = (p5) => {
 
     p5.createCanvas(window.innerWidth,window.innerHeight);
     p5.background(40);
+    // p5.frameRate(30 * TICKS_PER_FRAME);
 
     // document.addEventListener('keydown', () => {
     //   game.nextGen();
