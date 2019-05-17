@@ -20,3 +20,7 @@ export function getNearestDetails(target, others) {
 export function getNearest(target, others) {
   return getNearestDetails(target, others).ref;
 }
+
+export function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}

@@ -1,12 +1,7 @@
 import Creature from "./Creature";
 import Food from "./Food";
-
-const BLUE = [0,0,255];
-const RED = [255,0,255];
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
+import {BLUE, RED} from "./Constants";
+import {getRandomInt} from "./Helpers";
 
 export default class Game {
   constructor(width, height, n) {

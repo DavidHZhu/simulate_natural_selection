@@ -1,7 +1,5 @@
-import { getNearestDetails } from "./VectorMath";
-
-const MUTATE_CHANCE = 0.05;
-const KINETIC_ENERGY = 10;
+import { getNearestDetails } from "./Helpers";
+import {MUTATE_CHANCE, KINETIC_ENERGY} from "./Constants";
 
 export default class Creature {
   constructor(x, y, genes) {

@@ -1,4 +1,4 @@
-const FOOD_SIZE = 20;
+import {FOOD_SIZE} from "./Constants";
 
 export default class Food {
   constructor(x, y) {
