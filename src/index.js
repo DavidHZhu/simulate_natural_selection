@@ -10,6 +10,11 @@ let s = (p5) => {
 
     p5.createCanvas(window.innerWidth,window.innerHeight);
     p5.background(40);
+
+    document.addEventListener('keydown', () => {
+      game.nextGen();
+      console.log(game.json());
+    });
   };
 
   p5.draw = () => {
