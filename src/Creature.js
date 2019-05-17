@@ -1,6 +1,7 @@
 import { getNearestDetails } from "./VectorMath";
 
 const MUTATE_CHANCE = 0.05;
+const KINETIC_ENERGY = 10;
 
 export default class Creature {
   constructor(x, y, genes) {
@@ -8,6 +9,9 @@ export default class Creature {
     this.y = y;
     this.genes = genes;
     this.foodEaten = 0;
+
+    // Calculate speed based on mass & kinetic energy equation
+    this.genes.speed = Math.sqrt((2*KINETIC_ENERGY)/(3.14 * Math.pow(this.genes.size, 2)));
   }
 
   draw(p5) {

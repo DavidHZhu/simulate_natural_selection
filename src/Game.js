@@ -90,7 +90,7 @@ export default class Game {
 
     for (let i = 0; i < n; i++) {
       this.creatures.push(new Creature(getRandomInt(this.width),getRandomInt(this.height), {
-        size: getRandomInt(50),
+        size: getRandomInt(49) + 1,
         speed: 1
       }))
     }
