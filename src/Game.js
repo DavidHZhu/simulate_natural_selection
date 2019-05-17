@@ -1,6 +1,6 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, MIN_SIZE, N_FOOD, RED, TICKS_PER_FRAME} from "./Constants";
+import {BLUE, MIN_SIZE, N_FOOD, RED} from "./Constants";
 import {getRandomInt} from "./Helpers";
 import Genes from "./Genes";
 
@@ -12,6 +12,7 @@ export default class Game {
     this.gen = 0;
 
     this.randomGen(n);
+
   }
 
   draw(p5) {
@@ -20,16 +21,13 @@ export default class Game {
     p5.fill(p5.color(...BLUE));
     this.food.forEach((food) => food.draw(p5));
 
-    this.tick();
   }
 
   tick() {
-    for (let i = 0; i < TICKS_PER_FRAME; i++) {
-      this.creatures.forEach((creature) => creature.tick(this.state()));
+    this.creatures.forEach((creature) => creature.tick(this.state()));
 
-      if (this.food.length === 0) {
-        this.nextGen();
-      }
+    if (this.food.length === 0) {
+      this.nextGen();
     }
 
     if (this.allStopped()) {
@@ -74,9 +72,9 @@ export default class Game {
     this.generations.push({
       gen: this.gen++,
       creatures: this.creatures,
-      avg_size: avg_size/n,
-      avg_speed: avg_speed/n,
-      avg_distance: avg_distance/n
+      avg_size: avg_size / n,
+      avg_speed: avg_speed / n,
+      avg_distance: avg_distance / n
     });
 
     const oldCreatures = this.creatures;
@@ -105,17 +103,17 @@ export default class Game {
     this.creatures = [];
 
     for (let i = 0; i < n; i++) {
-      this.creatures.push(new Creature(getRandomInt(this.width),getRandomInt(this.height), Genes.randomGenes()))
+      this.creatures.push(new Creature(getRandomInt(this.width), getRandomInt(this.height), Genes.randomGenes()))
     }
 
-    this.genFood(n );
+    this.genFood(n);
   }
 
   genFood(n) {
     this.food = [];
 
     for (let i = 0; i < n; i++) {
-      this.food.push(new Food(getRandomInt(this.width),getRandomInt(this.height)));
+      this.food.push(new Food(getRandomInt(this.width), getRandomInt(this.height)));
     }
   }
 }

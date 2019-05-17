@@ -2,21 +2,31 @@ import Game from "./Game";
 import * as p5 from 'p5';
 import {N_FOOD, TICKS_PER_FRAME} from "./Constants";
 
+
 let s = (p5) => {
   let game;
+  let cur_speed;
   // let ANGLE = 0;
 
   p5.setup = () =>{
     game = new Game(window.innerWidth, window.innerHeight, N_FOOD);
+    cur_speed = TICKS_PER_FRAME;
 
     p5.createCanvas(window.innerWidth,window.innerHeight);
     p5.background(40);
-    // p5.frameRate(30 * TICKS_PER_FRAME);
 
-    // document.addEventListener('keydown', () => {
-    //   game.nextGen();
-    //   console.log(game.json());
-    // });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === "ArrowLeft") {
+        cur_speed -= 1;
+      } else if (event.key === "ArrowRight") {
+        cur_speed += 1;
+      }
+
+      if (cur_speed < 0) {
+        cur_speed = 0;
+      }
+      console.log("SPEED: " + cur_speed)
+    });
   };
 
   p5.draw = () => {
@@ -26,6 +36,9 @@ let s = (p5) => {
     // p5.rotateY(ANGLE);
     // p5.box(100, 10, 100);
     game.draw(p5);
+    for (let i = 0; i < cur_speed; i++) {
+      game.tick();
+    }
   }
 };
 
