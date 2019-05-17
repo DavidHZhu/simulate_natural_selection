@@ -6,6 +6,7 @@ export default class Creature {
   }
 
   draw(p5) {
-    p5.ellipse(this.x, this.y, this.x + this.genes.size,this.y + this.ggienes.size);
+    p5.circle(this.x, this.y, this.genes.size);
+    console.log(this.x);
   }
 }
