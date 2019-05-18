@@ -34,3 +34,7 @@ export function getRandomFloat(max) {
   // not including max
   return Math.random() * max;
 }
+
+export function round(n, precision) {
+  return n.toFixed(precision);
+}

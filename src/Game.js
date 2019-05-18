@@ -34,7 +34,8 @@ export default class Game {
   }
 
   allStopped() {
-    return this.creatures.filter((creature) => creature.speed > 0).length === 0;
+    // return whether there is at least one alive creature
+    return this.creatures.filter((creature) => !creature.dead && creature.speed > 0).length === 0;
   }
 
   state() {
@@ -44,6 +45,55 @@ export default class Game {
     // }
 
     return this;
+  }
+
+  nextGen() {
+    const stats = this.getStats();
+    const n = stats.n;
+
+    this.generations.push({
+      gen: this.gen++,
+      creatures: this.creatures,
+      avg_size: stats.avg_size,
+      avg_speed: stats.avg_speed,
+      avg_distance: stats.avg_distance
+    });
+
+    const oldCreatures = this.creatures;
+
+    this.creatures = [];
+
+    // breed
+    for (let creature of oldCreatures) {
+      for (let i = 0; i < creature.foodEaten; i++) {
+        this.creatures.push(creature.birthChild());
+      }
+    }
+
+    this.creatures.map((creature) => {
+      creature.x = getRandomInt(this.width);
+      creature.y = getRandomInt(this.height);
+    });
+
+    this.genFood(N_FOOD);
+  }
+
+  randomGen(n) {
+    this.creatures = [];
+
+    for (let i = 0; i < n; i++) {
+      this.creatures.push(new Creature(getRandomInt(this.width), getRandomInt(this.height), Genes.randomGenes()))
+    }
+
+    this.genFood(n);
+  }
+
+  genFood(n) {
+    this.food = [];
+
+    for (let i = 0; i < n; i++) {
+      this.food.push(new Food(getRandomInt(this.width), getRandomInt(this.height)));
+    }
   }
 
   json() {
@@ -70,7 +120,7 @@ export default class Game {
     return output;
   }
 
-  nextGen() {
+  getStats() {
     let avg_size = 0;
     let avg_speed = 0;
     let avg_distance = 0;
@@ -83,51 +133,6 @@ export default class Game {
       avg_distance += creature.genes.distance;
     });
 
-    this.generations.push({
-      gen: this.gen++,
-      creatures: this.creatures,
-      avg_size: avg_size / n,
-      avg_speed: avg_speed / n,
-      avg_distance: avg_distance / n
-    });
-
-    const oldCreatures = this.creatures;
-
-    this.creatures = [];
-
-    // breed
-    for (let creature of oldCreatures) {
-      for (let i = 0; i < creature.foodEaten; i++) {
-        this.creatures.push(creature.birthChild());
-      }
-    }
-
-    this.creatures.map((creature) => {
-      creature.x = getRandomInt(this.width);
-      creature.y = getRandomInt(this.height);
-    });
-
-    this.genFood(N_FOOD);
-
-    console.log(this.generations);
-
-  }
-
-  randomGen(n) {
-    this.creatures = [];
-
-    for (let i = 0; i < n; i++) {
-      this.creatures.push(new Creature(getRandomInt(this.width), getRandomInt(this.height), Genes.randomGenes()))
-    }
-
-    this.genFood(n);
-  }
-
-  genFood(n) {
-    this.food = [];
-
-    for (let i = 0; i < n; i++) {
-      this.food.push(new Food(getRandomInt(this.width), getRandomInt(this.height)));
-    }
+    return { avg_size: avg_size / n, avg_speed: avg_speed / n, avg_distance: avg_distance / n , n}
   }
 }
