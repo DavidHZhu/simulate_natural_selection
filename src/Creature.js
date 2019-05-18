@@ -9,13 +9,14 @@ export default class Creature {
     this.genes = genes;
     this.foodEaten = 0;
 
-    this.size = this.genes.size * 10 + 5;
+    this.size = Math.sqrt(this.genes.size) * 10 + 5;
 
+    /*** Convert genes to real numbers ***/
     // Calculate speed based on mass & kinetic energy equation
-    // this.speed = Math.sqrt((2*KINETIC_ENERGY)/(3.14 * Math.pow(this.size, 2)));
+    // const kinetic = this.genes.speed * KINETIC_ENERGY;
+    // this.speed = Math.sqrt((2*kinetic)/(3.14 * Math.pow(this.size, 2))) + 0.5;
 
-    // Convert genes to real numbers
-    this.speed = genes.speed + 0.5;
+    this.speed = Math.sqrt(genes.speed) + 0.5;
 
     this.distance_remaining = genes.distance * 100;
 
@@ -27,7 +28,12 @@ export default class Creature {
   draw(p5) {
     if (this.dead) return;
 
+    if (this.speed === 0) {
+      this.color = [50,50,50];
+    }
+
     p5.fill(p5.color(...this.color));
+
     p5.circle(this.x, this.y, this.size);
   }
 
@@ -42,7 +48,7 @@ export default class Creature {
   }
 
   tick(state) {
-    if (this.dead) return;
+    if (this.dead || this.speed === 0) return;
 
     this.distance_remaining -= this.speed;
     if (this.distance_remaining <= 0) {
@@ -58,7 +64,10 @@ export default class Creature {
     if (PREDATION) nearestCreature = getNearestDetails(this, this.state.creatures.filter((creature) => creature !== this && !creature.dead));
     const nearestFood = getNearestDetails(this, this.state.food);
 
-    if (this.canEat(nearestCreature.ref) && nearestCreature.distance < nearestFood.distance) {
+    if (nearestCreature.ref.canEat(this) && nearestCreature.distance < nearestFood.distance) {
+      this.color = [0, 255, 0];
+      this.runAwayFrom(nearestCreature.ref);
+    } else if (this.canEat(nearestCreature.ref) && nearestCreature.distance < nearestFood.distance) {
       this.color = [255,0,0];
       this.moveTowards(nearestCreature.ref);
     } else {
@@ -85,7 +94,7 @@ export default class Creature {
   }
 
   canEat(other) {
-    return PREDATION && this.speed > 0 && other.size * PREDATION_SIZE_MARKUP < this.size;
+    return PREDATION && this.speed > 0 && other.size * PREDATION_SIZE_MARKUP < this.size && other.speed < this.speed;
   }
 
   eatCreature(creature) {
@@ -110,9 +119,24 @@ export default class Creature {
     toOtherX /= toPlayerLength;
     toOtherY /= toPlayerLength;
 
-    // Move towards the player
+    // Move towards
     this.x += toOtherX * this.speed;
     this.y += toOtherY * this.speed;
+  }
+
+  runAwayFrom(obj) {
+    // Calculate direction towards food
+    let toOtherX = obj.x - this.x;
+    let toOtherY = obj.y - this.y;
+
+    // Normalize
+    const toPlayerLength = Math.hypot(toOtherX, toOtherY);
+    toOtherX /= toPlayerLength;
+    toOtherY /= toPlayerLength;
+
+    // Run away
+    this.x -= toOtherX * this.speed;
+    this.y -= toOtherY * this.speed;
   }
 
   json() {
