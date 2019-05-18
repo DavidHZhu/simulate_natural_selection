@@ -17,15 +17,15 @@ let s = (p5) => {
     p5.createCanvas(window.innerWidth,window.innerHeight);
     p5.background(40);
 
-    buttons.push(new Button(10,60,100,13, "Download JSON️", () => {
-      p5.saveJSON(game.json(), `ns_${game.json().generations.length}gens.json`);
+    buttons.push(new Button(10,80,100,13, "Download JSON️", () => {
+      p5.saveJSON(game.json(), `ns_${game.gen}gens.json`);
     }));
 
-    buttons.push(new Button(10,40,50,13, "<-", () => {
+    buttons.push(new Button(10,60,50,13, "<-", () => {
       if (cur_speed > 0) cur_speed--;
     }));
 
-    buttons.push(new Button(65,40,45,13, "        ->", () => {
+    buttons.push(new Button(65,60,45,13, "        ->", () => {
       cur_speed++;
     }));
 
@@ -55,6 +55,9 @@ let s = (p5) => {
     p5.textSize(20);
     p5.fill(255, 255, 255);
     p5.text(`Speed ${cur_speed}x`, 10, 30);
+    p5.textSize(15);
+    p5.text(`Gen ${game.gen}`, 10, 50);
+
 
     buttons.forEach((button) => button.draw(p5));
   };
