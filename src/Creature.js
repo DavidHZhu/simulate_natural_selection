@@ -1,6 +1,10 @@
 import {getDistance, getNearestDetails, getRandomInt} from "./Helpers";
-import {MUTATE_CHANCE, KINETIC_ENERGY, RED, PREDATION, PREDATION_SIZE_MARKUP} from "./Constants";
-import Genes from "./Genes";
+import {
+  MUTATE_CHANCE,
+  PREDATION,
+  PREDATION_SIZE_MARKUP,
+  PREDATION_SPEED_MARKUP
+} from "./Constants";
 
 export default class Creature {
   constructor(x, y, genes) {
@@ -70,11 +74,11 @@ export default class Creature {
     const nearestFood = getNearestDetails(this, this.state.food, this.sense);
 
     if (nearestCreature && nearestCreature.ref.canEat(this) && (!nearestFood || nearestCreature.distance < nearestFood.distance)) {
-      // chase
+      // run away
       this.color = [0, 255, 0];
       this.runAwayFrom(nearestCreature.ref);
     } else if (nearestCreature && this.canEat(nearestCreature.ref) && (!nearestFood || nearestCreature.distance < nearestFood.distance)) {
-      // run away
+      // chase
       this.color = [255, 0, 0];
       this.moveTowards(nearestCreature.ref);
     } else if (nearestFood) {
@@ -114,7 +118,9 @@ export default class Creature {
   }
 
   canEat(other) {
-    return PREDATION && this.speed > 0 && other.size * PREDATION_SIZE_MARKUP < this.size && other.speed < this.speed;
+    return PREDATION && this.speed > 0 &&
+      other.size * PREDATION_SIZE_MARKUP < this.size &&
+      other.speed * PREDATION_SPEED_MARKUP < this.speed;
   }
 
   eatCreature(creature) {

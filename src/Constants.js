@@ -10,6 +10,7 @@ export const SKILL_POINTS = 20;
 export const N_FOOD = 15;
 export const PREDATION = true;
 export const PREDATION_SIZE_MARKUP = 1.2;
+export const PREDATION_SPEED_MARKUP = 0.9;
 
 // Visual
 export const FOOD_SIZE = 20;
