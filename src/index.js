@@ -17,8 +17,16 @@ let s = (p5) => {
     p5.createCanvas(window.innerWidth,window.innerHeight);
     p5.background(40);
 
-    buttons.push(new Button(10,40,100,13, "Download JSON", () => {
-      p5.saveJSON(game.json(), 'data.json');
+    buttons.push(new Button(10,60,100,13, "Download JSON️", () => {
+      p5.saveJSON(game.json(), `ns_${game.json().generations.length}gens.json`);
+    }));
+
+    buttons.push(new Button(10,40,50,13, "<-", () => {
+      if (cur_speed > 0) cur_speed--;
+    }));
+
+    buttons.push(new Button(60,40,50,13, "->", () => {
+      cur_speed++;
     }));
 
     document.addEventListener('keydown', (event) => {
