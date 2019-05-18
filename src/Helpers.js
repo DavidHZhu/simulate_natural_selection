@@ -1,7 +1,7 @@
 export function getNearestDetails(target, others) {
   const distances = [...others].map((other) => {
     return {
-      distance: Math.hypot(other.x - target.x, other.y - target.y),
+      distance: getDistance(target, other),
       ref: other
     }
   });
@@ -17,6 +17,10 @@ export function getNearestDetails(target, others) {
   return min;
 }
 
+export function getDistance(obj1, obj2) {
+  return Math.hypot(obj2.x - obj1.x, obj2.y - obj1.y);
+}
+
 export function getNearest(target, others) {
   return getNearestDetails(target, others).ref;
 }
@@ -29,4 +33,8 @@ export function getRandomInt(max) {
 export function getRandomFloat(max) {
   // not including max
   return Math.random() * max;
+}
+
+export function round(n, precision) {
+  return n.toFixed(precision);
 }

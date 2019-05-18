@@ -2,6 +2,7 @@ import Game from "./Game";
 import * as p5 from 'p5';
 import {N_FOOD, TICKS_PER_FRAME} from "./Constants";
 import Button from "./Button";
+import {round} from "./Helpers";
 
 
 let s = (p5) => {
@@ -17,15 +18,15 @@ let s = (p5) => {
     p5.createCanvas(window.innerWidth,window.innerHeight);
     p5.background(40);
 
-    buttons.push(new Button(10,60,100,13, "Download JSON️", () => {
-      p5.saveJSON(game.json(), `ns_${game.json().generations.length}gens.json`);
+    buttons.push(new Button(10,80,100,13, "Download JSON️", () => {
+      p5.saveJSON(game.json(), `ns_${game.gen}gens.json`);
     }));
 
-    buttons.push(new Button(10,40,50,13, "<-", () => {
+    buttons.push(new Button(10,60,50,13, "<-", () => {
       if (cur_speed > 0) cur_speed--;
     }));
 
-    buttons.push(new Button(65,40,45,13, "        ->", () => {
+    buttons.push(new Button(65,60,45,13, "        ->", () => {
       cur_speed++;
     }));
 
@@ -52,9 +53,20 @@ let s = (p5) => {
       game.tick();
     }
 
+    const stats = game.getStats();
+
     p5.textSize(20);
     p5.fill(255, 255, 255);
     p5.text(`Speed ${cur_speed}x`, 10, 30);
+    p5.textSize(15);
+    p5.text(`Gen ${game.gen}`, 10, 50);
+    p5.textSize(15);
+
+    p5.text(`${stats.n} creatures`, 10, 110);
+    p5.text(`Average size ${round(stats.avg_size, 2)}`, 10, 130);
+    p5.text(`Average speed ${round(stats.avg_speed, 2)}`, 10, 150);
+    p5.text(`Average distance ${round(stats.avg_distance, 2)}`, 10, 170);
+
 
     buttons.forEach((button) => button.draw(p5));
   };
