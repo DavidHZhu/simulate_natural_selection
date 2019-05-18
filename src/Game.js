@@ -20,7 +20,6 @@ export default class Game {
     this.creatures.forEach((creature) => creature.draw(p5));
     p5.fill(p5.color(...BLUE));
     this.food.forEach((food) => food.draw(p5));
-
   }
 
   tick() {
@@ -49,11 +48,27 @@ export default class Game {
   }
 
   json() {
-    // return JSON.stringify({
-    //   data: this.generations
-    // });
+    const output = {
+      num_generations: this.generations.length,
+      generations: []
+    };
 
-    return this.generations;
+    this.generations.forEach((gen) => {
+      output.generations.push({
+        avg_distance: gen.avg_distance,
+        avg_speed: gen.avg_speed,
+        avg_size: gen.avg_size,
+        creatures: gen.creatures.map((creature) => {
+          return {
+            size: creature.genes.size,
+            speed: creature.genes.speed,
+            distance: creature.genes.distance
+          }
+        })
+      });
+    });
+
+    return output;
   }
 
   nextGen() {

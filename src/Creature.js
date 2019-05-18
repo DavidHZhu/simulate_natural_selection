@@ -9,11 +9,11 @@ export default class Creature {
     this.genes = genes;
     this.foodEaten = 0;
 
-    this.size = this.genes.size * 10;
+    this.size = this.genes.size * 10 + 5;
 
     // Calculate speed based on mass & kinetic energy equation
     // this.speed = Math.sqrt((2*KINETIC_ENERGY)/(3.14 * Math.pow(this.size, 2)));
-    this.speed = genes.speed;
+    this.speed = genes.speed + 0.5;
 
     this.distance_remaining = genes.distance * 100;
   }
@@ -26,7 +26,7 @@ export default class Creature {
     let childGenes = this.genes;
 
     if (Math.random() < MUTATE_CHANCE) {
-      childGenes = Genes.randomGenes();
+      childGenes = childGenes.mutatedGenes();
     }
 
     return new Creature(this.x, this.y, childGenes);
