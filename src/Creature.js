@@ -1,5 +1,5 @@
 import { getNearestDetails } from "./Helpers";
-import {MUTATE_CHANCE, KINETIC_ENERGY} from "./Constants";
+import {MUTATE_CHANCE, KINETIC_ENERGY, RED, PREDATION} from "./Constants";
 import Genes from "./Genes";
 
 export default class Creature {
@@ -16,9 +16,12 @@ export default class Creature {
     this.speed = genes.speed + 0.5;
 
     this.distance_remaining = genes.distance * 100;
+
+    this.color = [255,0,0];
   }
 
   draw(p5) {
+    p5.fill(p5.color(...this.color));
     p5.circle(this.x, this.y, this.size);
   }
 
@@ -39,17 +42,36 @@ export default class Creature {
     }
     this.state = state;
 
-    const nearestFood = getNearestDetails(this, this.state.food);
 
     if (this.state.food.length === 0) {
       return;
     }
-    this.moveTowards(nearestFood.ref);
+    let nearestCreature;
+    if (PREDATION) nearestCreature = getNearestDetails(this, this.state.creatures.filter((creature) => creature !== this));
+    const nearestFood = getNearestDetails(this, this.state.food);
+
+    if (PREDATION && nearestCreature.ref.size < this.size && nearestCreature.distance < nearestFood.distance) {
+      this.color = [255,0,0];
+      this.moveTowards(nearestCreature.ref);
+    } else {
+      this.color = [128, 128, 255];
+      this.moveTowards(nearestFood.ref);
+    }
 
     if (nearestFood.distance < nearestFood.ref.size/2 + this.size/2) {
       // in range, eat food
       this.eat(nearestFood.ref);
     }
+
+    if (nearestCreature.distance < nearestCreature.ref.size/2 + this.size/2) {
+      // in range, eat food
+      this.eatCreature(nearestCreature.ref);
+    }
+  }
+
+  eatCreature(creature) {
+    this.foodEaten++;
+    this.state.creatures = this.state.creatures.filter((ref) => ref !== creature);
   }
 
   eat(food) {
@@ -61,17 +83,17 @@ export default class Creature {
 
   moveTowards(obj) {
     // Calculate direction towards food
-    let toFoodX = obj.x - this.x;
-    let toFoodY = obj.y - this.y;
+    let toOtherX = obj.x - this.x;
+    let toOtherY = obj.y - this.y;
 
     // Normalize
-    const toPlayerLength = Math.hypot(toFoodX, toFoodY);
-    toFoodX /= toPlayerLength;
-    toFoodY /= toPlayerLength;
+    const toPlayerLength = Math.hypot(toOtherX, toOtherY);
+    toOtherX /= toPlayerLength;
+    toOtherY /= toPlayerLength;
 
     // Move towards the player
-    this.x += toFoodX * this.speed;
-    this.y += toFoodY * this.speed;
+    this.x += toOtherX * this.speed;
+    this.y += toOtherY * this.speed;
   }
 
   json() {

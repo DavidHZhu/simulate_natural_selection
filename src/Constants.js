@@ -8,6 +8,7 @@ export const SKILL_POINTS = 10;
 
 // Game
 export const N_FOOD = 15;
+export const PREDATION = true;
 
 // Visual
 export const FOOD_SIZE = 20;

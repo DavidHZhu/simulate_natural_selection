@@ -16,7 +16,6 @@ export default class Game {
   }
 
   draw(p5) {
-    p5.fill(p5.color(...RED));
     this.creatures.forEach((creature) => creature.draw(p5));
     p5.fill(p5.color(...BLUE));
     this.food.forEach((food) => food.draw(p5));
