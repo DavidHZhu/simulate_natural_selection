@@ -124,6 +124,7 @@ export default class Game {
     let avg_size = 0;
     let avg_speed = 0;
     let avg_distance = 0;
+    let avg_sense = 0;
 
     const n = this.creatures.length;
 
@@ -131,8 +132,9 @@ export default class Game {
       avg_speed += creature.genes.speed;
       avg_size += creature.genes.size;
       avg_distance += creature.genes.distance;
+      avg_sense += creature.genes.sense;
     });
 
-    return { avg_size: avg_size / n, avg_speed: avg_speed / n, avg_distance: avg_distance / n , n}
+    return { avg_size: avg_size / n, avg_speed: avg_speed / n, avg_distance: avg_distance / n , avg_sense: avg_sense / n, n}
   }
 }

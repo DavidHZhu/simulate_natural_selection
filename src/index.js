@@ -43,17 +43,18 @@ let s = (p5) => {
     });
   };
   p5.draw = () => {
+    const stats = game.getStats();
     // ANGLE += 0.01;
     p5.background(0);
     // p5.camera(80, -1.00, 80, 0, 0, 0, 0, 1, 0);
     // p5.rotateY(ANGLE);
     // p5.box(100, 10, 100);
     game.draw(p5);
-    for (let i = 0; i < cur_speed; i++) {
-      game.tick();
+    if (stats.n > 0) {
+      for (let i = 0; i < cur_speed; i++) {
+        game.tick();
+      }
     }
-
-    const stats = game.getStats();
 
     p5.textSize(20);
     p5.fill(255, 255, 255);
@@ -63,11 +64,14 @@ let s = (p5) => {
     p5.textSize(15);
 
     p5.text(`${stats.n} creatures`, 10, 110);
-    p5.text(`Average size ${round(stats.avg_size, 2)}`, 10, 130);
-    p5.text(`Average speed ${round(stats.avg_speed, 2)}`, 10, 150);
-    p5.text(`Average distance ${round(stats.avg_distance, 2)}`, 10, 170);
-
-
+    if (stats.n > 0) {
+      p5.text(`Average size ${round(stats.avg_size, 2)}`, 10, 130);
+      p5.text(`Average speed ${round(stats.avg_speed, 2)}`, 10, 150);
+      p5.text(`Average distance ${round(stats.avg_distance, 2)}`, 10, 170);
+      p5.text(`Average sense ${round(stats.avg_sense, 2)}`, 10, 190);
+    } else {
+      p5.text(`EXTINCT`, 10, 130);
+    }
     buttons.forEach((button) => button.draw(p5));
   };
 

@@ -4,7 +4,7 @@ export const SMALL_MUTATIONS = true;
 
 export const KINETIC_ENERGY = 100;
 export const MIN_SIZE = 5;
-export const SKILL_POINTS = 10;
+export const SKILL_POINTS = 20;
 
 // Game
 export const N_FOOD = 15;
