@@ -25,7 +25,7 @@ let s = (p5) => {
       if (cur_speed > 0) cur_speed--;
     }));
 
-    buttons.push(new Button(60,40,50,13, "->", () => {
+    buttons.push(new Button(65,40,45,13, "        ->", () => {
       cur_speed++;
     }));
 
