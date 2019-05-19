@@ -1,40 +1,50 @@
-import { getNearestDetails } from "./Helpers";
-import {MUTATE_CHANCE, KINETIC_ENERGY, RED, PREDATION, PREDATION_SIZE_MARKUP} from "./Constants";
-import Genes from "./Genes";
+import {getDistance, getNearestDetails, getRandomInt} from "./Helpers";
+import {
+  MUTATE_CHANCE,
+  PREDATION,
+  PREDATION_SIZE_MARKUP,
+  PREDATION_SPEED_MARKUP
+} from "./Constants";
 
 export default class Creature {
   constructor(x, y, genes) {
     this.x = x;
     this.y = y;
-    this.genes = genes;
     this.foodEaten = 0;
+    this.color = [255, 0, 0];
+    this.dead = false;
+    this.genes = genes;
 
-    this.size = Math.sqrt(this.genes.size) * 10 + 5;
-
+    this.goingTowards = null;
     /*** Convert genes to real numbers ***/
     // Calculate speed based on mass & kinetic energy equation
     // const kinetic = this.genes.speed * KINETIC_ENERGY;
     // this.speed = Math.sqrt((2*kinetic)/(3.14 * Math.pow(this.size, 2))) + 0.5;
 
-    this.speed = Math.sqrt(genes.speed) + 0.5;
+    this.speed = genes.speed + 0.5;
 
-    this.distance_remaining = genes.distance * 100;
+    this.distance_remaining = Math.sqrt(genes.distance) * 150;
 
-    this.color = [255,0,0];
+    this.size = Math.sqrt(this.genes.size) * 10 + 5;
 
-    this.dead = false;
+    this.sense = this.genes.sense * 25 + this.size / 2; // divide by 2 if accurate
   }
 
   draw(p5) {
     if (this.dead) return;
 
     if (this.speed === 0) {
-      this.color = [50,50,50];
+      this.color = [50, 50, 50];
     }
 
     p5.fill(p5.color(...this.color));
 
     p5.circle(this.x, this.y, this.size);
+
+    p5.fill(p5.color(0,0,0,0));
+    p5.stroke(p5.color(128,128,128));
+    p5.circle(this.x,this.y, this.sense * 2);
+    p5.stroke(p5.color(0,0,0));
   }
 
   birthChild() {
@@ -51,36 +61,51 @@ export default class Creature {
     if (this.dead || this.speed === 0) return;
 
     this.distance_remaining -= this.speed;
-    if (this.distance_remaining <= 0) {
-      this.speed = 0;
-    }
+
+    if (this.distance_remaining <= 0) this.speed = 0;
     this.state = state;
 
-
-    if (this.state.food.length === 0) {
-      return;
-    }
+    if (this.state.food.length === 0) return;
     let nearestCreature;
-    if (PREDATION) nearestCreature = getNearestDetails(this, this.state.creatures.filter((creature) => creature !== this && !creature.dead));
-    const nearestFood = getNearestDetails(this, this.state.food);
 
-    if (nearestCreature.ref.canEat(this) && nearestCreature.distance < nearestFood.distance) {
+    const aliveCreatures = this.state.creatures.filter((creature) => creature !== this && !creature.dead);
+    if (PREDATION) nearestCreature = getNearestDetails(this, aliveCreatures, this.sense);
+
+    const nearestFood = getNearestDetails(this, this.state.food, this.sense);
+
+    if (nearestCreature && nearestCreature.ref.canEat(this) && nearestCreature.distance < this.size * 2) {
+      // run away
       this.color = [0, 255, 0];
       this.runAwayFrom(nearestCreature.ref);
-    } else if (this.canEat(nearestCreature.ref) && nearestCreature.distance < nearestFood.distance) {
-      this.color = [255,0,0];
+    } else if (nearestCreature && this.canEat(nearestCreature.ref) && this.shouldEat(nearestCreature.ref) &&
+      (!nearestFood || nearestCreature.distance < nearestFood.distance)) {
+      // chase
+      this.color = [255, 0, 0];
       this.moveTowards(nearestCreature.ref);
-    } else {
+    } else if (nearestFood) {
+      // get food
       this.color = [128, 128, 255];
       this.moveTowards(nearestFood.ref);
+    } else if (!this.goingTowards || getDistance(this, this.goingTowards) < this.size / 2) {
+      // pick random position to go to
+      this.color = [128, 128, 128];
+      this.goingTowards = {
+        x: getRandomInt(state.width),
+        y: getRandomInt(state.height)
+      }
+    } else {
+      // go towards random position
+      this.color = [128, 128, 128];
+      this.moveTowards(this.goingTowards)
     }
 
-    if (this.touching(nearestFood)) {
+    const nearestFoodGlobal = getNearestDetails(this, this.state.food);
+    if (this.touching(nearestFoodGlobal)) {
       // in range, eat food
-      this.eat(nearestFood.ref);
+      this.eat(nearestFoodGlobal.ref);
     }
 
-    if (this.canEat(nearestCreature.ref) && this.touching(nearestCreature)) {
+    if (PREDATION && nearestCreature && this.canEat(nearestCreature.ref) && this.touching(nearestCreature)) {
       // in range, eat food
       this.eatCreature(nearestCreature.ref);
     }
@@ -88,13 +113,19 @@ export default class Creature {
 
   touching(other) {
     if (!other.distance) {
-      throw Error("No distance");
+      // throw Error("No distance: " + JSON.stringify(other));
+      return false;
     }
-    return other.distance < other.ref.size/2 + this.size/2
+    return other.distance < other.ref.size / 2 + this.size / 2
   }
 
   canEat(other) {
-    return PREDATION && this.speed > 0 && other.size * PREDATION_SIZE_MARKUP < this.size && other.speed < this.speed;
+    return PREDATION && this.speed > 0 &&
+      other.size * PREDATION_SIZE_MARKUP < this.size;
+  }
+
+  shouldEat(other) {
+    return other.speed * PREDATION_SPEED_MARKUP < this.speed;
   }
 
   eatCreature(creature) {
@@ -110,7 +141,7 @@ export default class Creature {
   }
 
   moveTowards(obj) {
-    // Calculate direction towards food
+    // Calculate direction towards other
     let toOtherX = obj.x - this.x;
     let toOtherY = obj.y - this.y;
 

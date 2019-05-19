@@ -9,6 +9,6 @@ export default class Food {
   }
 
   draw(p5) {
-    p5.circle(this.x, this.y, this.size);
+    p5.rect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
   }
 }

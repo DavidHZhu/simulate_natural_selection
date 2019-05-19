@@ -1,10 +1,18 @@
-export function getNearestDetails(target, others) {
-  const distances = [...others].map((other) => {
+export function getNearestDetails(target, others, max_distance) {
+  let distances = [...others].map((other) => {
     return {
       distance: getDistance(target, other),
       ref: other
     }
   });
+
+  if (max_distance) {
+    distances = distances.filter((other) => other.distance <= max_distance);
+  }
+
+  if (distances.length === 0) {
+    return null;
+  }
 
   let min = distances[0], max = distances[0];
 
@@ -21,8 +29,8 @@ export function getDistance(obj1, obj2) {
   return Math.hypot(obj2.x - obj1.x, obj2.y - obj1.y);
 }
 
-export function getNearest(target, others) {
-  return getNearestDetails(target, others).ref;
+export function getNearest(target, others, max_distance) {
+  return getNearestDetails(target, others, max_distance).ref;
 }
 
 export function getRandomInt(max) {

@@ -2,15 +2,16 @@ import {getRandomFloat, getRandomInt} from "./Helpers";
 import {SKILL_POINTS, SMALL_MUTATIONS} from "./Constants";
 
 export default class Genes {
-  constructor(size, speed, distance) {
+  constructor(size, speed, distance, sense) {
     this.size = size;
     this.speed = speed;
     this.distance = distance;
+    this.sense = sense
   };
 
   mutatedGenes() {
     if (SMALL_MUTATIONS) {
-      let newGenes = [this.size, this.speed, this.distance];
+      let newGenes = [this.size, this.speed, this.distance, this.sense];
 
       const from = getRandomInt(newGenes.length);
       let to = from;
@@ -33,7 +34,7 @@ export default class Genes {
   }
 
   static randomGenes() {
-    let genes = [0,0,0]; // one 0 for each gene
+    let genes = [0,0,0,0]; // one 0 for each gene
 
     // Generate random percentages
     for (let i = 0; i < genes.length; i++) {

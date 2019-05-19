@@ -107,13 +107,15 @@ export default class Game {
         avg_distance: gen.avg_distance,
         avg_speed: gen.avg_speed,
         avg_size: gen.avg_size,
-        creatures: gen.creatures.map((creature) => {
-          return {
-            size: creature.genes.size,
-            speed: creature.genes.speed,
-            distance: creature.genes.distance
-          }
-        })
+        avg_sense: gen.avg_sense
+        // creatures: gen.creatures.map((creature) => {
+        //   return {
+        //     size: creature.genes.size,
+        //     speed: creature.genes.speed,
+        //     distance: creature.genes.distance,
+        //     sense: creature.genes.sense,
+        //   }
+        // })
       });
     });
 
@@ -124,6 +126,7 @@ export default class Game {
     let avg_size = 0;
     let avg_speed = 0;
     let avg_distance = 0;
+    let avg_sense = 0;
 
     const n = this.creatures.length;
 
@@ -131,8 +134,9 @@ export default class Game {
       avg_speed += creature.genes.speed;
       avg_size += creature.genes.size;
       avg_distance += creature.genes.distance;
+      avg_sense += creature.genes.sense;
     });
 
-    return { avg_size: avg_size / n, avg_speed: avg_speed / n, avg_distance: avg_distance / n , n}
+    return { avg_size: avg_size / n, avg_speed: avg_speed / n, avg_distance: avg_distance / n , avg_sense: avg_sense / n, n}
   }
 }
