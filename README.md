@@ -12,3 +12,5 @@ Start the server with `npm start`
 Clone the repo and run `yarn install`
 
 Start the server with `yarn start`
+
+## [Project Board](https://github.com/devonpmack/simulate_natural_selection/projects/1)
