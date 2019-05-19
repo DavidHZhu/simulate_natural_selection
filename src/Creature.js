@@ -45,7 +45,6 @@ export default class Creature {
     p5.stroke(p5.color(128,128,128));
     p5.circle(this.x,this.y, this.sense * 2);
 
-    p5.circle(this.x, this.y, 5);
     if (SHOW_GENE_LABEL) {
       const fontSize = this.size/2;
       p5.fill(p5.color(255, 255, 255));
