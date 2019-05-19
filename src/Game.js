@@ -56,7 +56,8 @@ export default class Game {
       creatures: this.creatures,
       avg_size: stats.avg_size,
       avg_speed: stats.avg_speed,
-      avg_distance: stats.avg_distance
+      avg_distance: stats.avg_distance,
+      avg_sense: stats.avg_sense
     });
 
     const oldCreatures = this.creatures;
