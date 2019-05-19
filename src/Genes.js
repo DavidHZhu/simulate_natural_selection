@@ -1,5 +1,5 @@
 import {getRandomFloat, getRandomInt} from "./Helpers/Helpers";
-import {SKILL_POINTS, SMALL_MUTATIONS} from "./Constants";
+import {EMOJI_GENES, SKILL_POINTS, SMALL_MUTATIONS} from "./Constants";
 
 export default class Genes {
   constructor(size, speed, distance, sense, label) {
@@ -51,8 +51,7 @@ export default class Genes {
   }
 
   static randomLabel() {
-    // const list = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
-    const list = "☠❤✅✂✈✉✊✋✌✏✒✔"
+    const list = EMOJI_GENES ? "☠❤✅✂✈✉✊✋✌✏✒✔❗❓❌❄✳✖" : "ABCDEFGHIJKLMNPQRSTUVWXYZ";
     return list[getRandomInt(list.length)];
   }
 }

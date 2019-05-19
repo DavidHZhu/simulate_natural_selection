@@ -1,6 +1,6 @@
 import {getDistance, getNearestDetails, getRandomInt} from "./Helpers/Helpers";
 import {
-  KINETIC_ENERGY,
+  KINETIC_ENERGY, MIN_SPEED,
   MUTATE_CHANCE,
   PREDATION,
   PREDATION_SIZE_MARKUP,
@@ -24,9 +24,9 @@ export default class Creature {
     // Calculate speed based on mass & kinetic energy equation
     if (USE_KINETIC_ENERGY) {
       const kinetic = genes.speed * KINETIC_ENERGY;
-      this.speed = Math.sqrt((2 * kinetic) / (3.14 * Math.pow(this.size, 2))) + 0.5;
+      this.speed = Math.sqrt((2 * kinetic) / (3.14 * Math.pow(this.size, 2))) + MIN_SPEED;
     } else {
-      this.speed = genes.speed + 0.5;
+      this.speed = genes.speed + MIN_SPEED;
     }
 
     this.distance_remaining = Math.sqrt(genes.distance) * 150;

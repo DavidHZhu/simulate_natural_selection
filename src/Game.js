@@ -1,6 +1,6 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, MIN_SIZE, N_FOOD, RED} from "./Constants";
+import {BLUE, DEAD_BREED, MIN_SIZE, N_FOOD, RED} from "./Constants";
 import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
 
@@ -66,6 +66,7 @@ export default class Game {
 
     // breed
     for (let creature of oldCreatures) {
+      if (!DEAD_BREED && creature.dead) continue; // dont breed if eaten
       for (let i = 0; i < creature.foodEaten; i++) {
         this.creatures.push(creature.birthChild());
       }
