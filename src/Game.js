@@ -120,8 +120,6 @@ export default class Game {
       });
     });
 
-    console.log(output);
-
     return output;
   }
 
