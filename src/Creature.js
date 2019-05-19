@@ -3,7 +3,7 @@ import {
   MUTATE_CHANCE,
   PREDATION,
   PREDATION_SIZE_MARKUP,
-  PREDATION_SPEED_MARKUP
+  PREDATION_SPEED_MARKUP, SHOW_GENE_LABEL
 } from "./Constants";
 
 export default class Creature {
@@ -44,6 +44,14 @@ export default class Creature {
     p5.fill(p5.color(0,0,0,0));
     p5.stroke(p5.color(128,128,128));
     p5.circle(this.x,this.y, this.sense * 2);
+
+    if (SHOW_GENE_LABEL) {
+      const fontSize = this.size/2;
+      p5.fill(p5.color(255, 255, 255));
+      p5.textSize(fontSize);
+      const width = p5.textWidth(this.genes.label);
+      p5.text(this.genes.label, this.x - width/2, this.y + fontSize/2)
+    }
     p5.stroke(p5.color(0,0,0));
   }
 
