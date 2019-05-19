@@ -15,6 +15,7 @@ export const PREDATION_SPEED_MARKUP = 1.1;
 // Visual
 export const FOOD_SIZE = 20;
 export const TICKS_PER_FRAME = 1;
+export const SHOW_GENE_LABEL = true;
 
 // Colours
 export const BLUE = [0,0,255];

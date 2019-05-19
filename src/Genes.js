@@ -2,11 +2,12 @@ import {getRandomFloat, getRandomInt} from "./Helpers/Helpers";
 import {SKILL_POINTS, SMALL_MUTATIONS} from "./Constants";
 
 export default class Genes {
-  constructor(size, speed, distance, sense) {
+  constructor(size, speed, distance, sense, label) {
     this.size = size;
     this.speed = speed;
     this.distance = distance;
     this.sense = sense
+    this.label = label;
   };
 
   mutatedGenes() {
@@ -27,7 +28,7 @@ export default class Genes {
       newGenes[from] -= amount;
       newGenes[to] += amount;
 
-      return new Genes(...newGenes);
+      return new Genes(...newGenes, Genes.randomLabel());
     } else {
       return Genes.randomGenes();
     }
@@ -46,7 +47,11 @@ export default class Genes {
     genes.forEach((gene) => sum += gene);
     genes = genes.map((gene) => (gene/sum) * SKILL_POINTS);
 
-    return new Genes(...genes)
+    return new Genes(...genes, Genes.randomLabel());
   }
 
+  static randomLabel() {
+    const list = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
+    return list[getRandomInt(list.length)];
+  }
 }
