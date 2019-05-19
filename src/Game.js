@@ -107,13 +107,15 @@ export default class Game {
         avg_distance: gen.avg_distance,
         avg_speed: gen.avg_speed,
         avg_size: gen.avg_size,
-        creatures: gen.creatures.map((creature) => {
-          return {
-            size: creature.genes.size,
-            speed: creature.genes.speed,
-            distance: creature.genes.distance
-          }
-        })
+        avg_sense: gen.avg_sense
+        // creatures: gen.creatures.map((creature) => {
+        //   return {
+        //     size: creature.genes.size,
+        //     speed: creature.genes.speed,
+        //     distance: creature.genes.distance,
+        //     sense: creature.genes.sense,
+        //   }
+        // })
       });
     });
 

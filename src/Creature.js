@@ -21,9 +21,9 @@ export default class Creature {
     // const kinetic = this.genes.speed * KINETIC_ENERGY;
     // this.speed = Math.sqrt((2*kinetic)/(3.14 * Math.pow(this.size, 2))) + 0.5;
 
-    this.speed = Math.sqrt(genes.speed) + 0.5;
+    this.speed = genes.speed + 0.5;
 
-    this.distance_remaining = genes.distance * 100;
+    this.distance_remaining = Math.sqrt(genes.distance) * 150;
 
     this.size = Math.sqrt(this.genes.size) * 10 + 5;
 
@@ -73,11 +73,12 @@ export default class Creature {
 
     const nearestFood = getNearestDetails(this, this.state.food, this.sense);
 
-    if (nearestCreature && nearestCreature.ref.canEat(this) && (!nearestFood || nearestCreature.distance < nearestFood.distance)) {
+    if (nearestCreature && nearestCreature.ref.canEat(this) && nearestCreature.distance < this.size * 2) {
       // run away
       this.color = [0, 255, 0];
       this.runAwayFrom(nearestCreature.ref);
-    } else if (nearestCreature && this.canEat(nearestCreature.ref) && (!nearestFood || nearestCreature.distance < nearestFood.distance)) {
+    } else if (nearestCreature && this.canEat(nearestCreature.ref) && this.shouldEat(nearestCreature.ref) &&
+      (!nearestFood || nearestCreature.distance < nearestFood.distance)) {
       // chase
       this.color = [255, 0, 0];
       this.moveTowards(nearestCreature.ref);
@@ -112,15 +113,19 @@ export default class Creature {
 
   touching(other) {
     if (!other.distance) {
-      throw Error("No distance: " + JSON.stringify(other));
+      // throw Error("No distance: " + JSON.stringify(other));
+      return false;
     }
     return other.distance < other.ref.size / 2 + this.size / 2
   }
 
   canEat(other) {
     return PREDATION && this.speed > 0 &&
-      other.size * PREDATION_SIZE_MARKUP < this.size &&
-      other.speed * PREDATION_SPEED_MARKUP < this.speed;
+      other.size * PREDATION_SIZE_MARKUP < this.size;
+  }
+
+  shouldEat(other) {
+    return other.speed * PREDATION_SPEED_MARKUP < this.speed;
   }
 
   eatCreature(creature) {
