@@ -45,10 +45,13 @@ export default class Creature {
     p5.stroke(p5.color(128,128,128));
     p5.circle(this.x,this.y, this.sense * 2);
 
+    p5.circle(this.x, this.y, 5);
     if (SHOW_GENE_LABEL) {
+      const fontSize = this.size/2;
       p5.fill(p5.color(255, 255, 255));
-      p5.textSize(this.size / 2);
-      p5.text(this.genes.label, this.x - this.size / 4, this.y + this.size / 4)
+      p5.textSize(fontSize);
+      const width = p5.textWidth(this.genes.label);
+      p5.text(this.genes.label, this.x - width/2, this.y + fontSize/2)
     }
     p5.stroke(p5.color(0,0,0));
   }
