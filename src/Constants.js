@@ -2,6 +2,7 @@
 export const MUTATE_CHANCE = 0.1;
 export const SMALL_MUTATIONS = true;
 
+export const USE_KINETIC_ENERGY = true;
 export const KINETIC_ENERGY = 100;
 export const MIN_SIZE = 5;
 export const SKILL_POINTS = 25;

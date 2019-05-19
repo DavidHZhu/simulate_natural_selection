@@ -1,9 +1,10 @@
 import {getDistance, getNearestDetails, getRandomInt} from "./Helpers/Helpers";
 import {
+  KINETIC_ENERGY,
   MUTATE_CHANCE,
   PREDATION,
   PREDATION_SIZE_MARKUP,
-  PREDATION_SPEED_MARKUP, SHOW_GENE_LABEL
+  PREDATION_SPEED_MARKUP, SHOW_GENE_LABEL, USE_KINETIC_ENERGY
 } from "./Constants";
 
 export default class Creature {
@@ -16,16 +17,19 @@ export default class Creature {
     this.genes = genes;
 
     this.goingTowards = null;
-    /*** Convert genes to real numbers ***/
-    // Calculate speed based on mass & kinetic energy equation
-    // const kinetic = this.genes.speed * KINETIC_ENERGY;
-    // this.speed = Math.sqrt((2*kinetic)/(3.14 * Math.pow(this.size, 2))) + 0.5;
-
-    this.speed = genes.speed + 0.5;
-
-    this.distance_remaining = Math.sqrt(genes.distance) * 150;
 
     this.size = Math.sqrt(this.genes.size) * 10 + 5;
+
+    /*** Convert genes to real numbers ***/
+    // Calculate speed based on mass & kinetic energy equation
+    if (USE_KINETIC_ENERGY) {
+      const kinetic = genes.speed * KINETIC_ENERGY;
+      this.speed = Math.sqrt((2 * kinetic) / (3.14 * Math.pow(this.size, 2))) + 0.5;
+    } else {
+      this.speed = genes.speed + 0.5;
+    }
+
+    this.distance_remaining = Math.sqrt(genes.distance) * 150;
 
     this.sense = this.genes.sense * 25 + this.size / 2; // divide by 2 if accurate
   }
@@ -41,18 +45,18 @@ export default class Creature {
 
     p5.circle(this.x, this.y, this.size);
 
-    p5.fill(p5.color(0,0,0,0));
-    p5.stroke(p5.color(128,128,128));
-    p5.circle(this.x,this.y, this.sense * 2);
+    p5.fill(p5.color(0, 0, 0, 0));
+    p5.stroke(p5.color(128, 128, 128));
+    p5.circle(this.x, this.y, this.sense * 2);
 
     if (SHOW_GENE_LABEL) {
-      const fontSize = this.size/2;
+      const fontSize = this.size / 2;
       p5.fill(p5.color(255, 255, 255));
       p5.textSize(fontSize);
       const width = p5.textWidth(this.genes.label);
-      p5.text(this.genes.label, this.x - width/2, this.y + fontSize/2)
+      p5.text(this.genes.label, this.x - width / 2, this.y + fontSize / 2)
     }
-    p5.stroke(p5.color(0,0,0));
+    p5.stroke(p5.color(0, 0, 0));
   }
 
   birthChild() {

@@ -51,7 +51,8 @@ export default class Genes {
   }
 
   static randomLabel() {
-    const list = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
+    // const list = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
+    const list = "☠❤✅✂✈✉✊✋✌✏✒✔"
     return list[getRandomInt(list.length)];
   }
 }
