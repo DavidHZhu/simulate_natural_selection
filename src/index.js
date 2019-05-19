@@ -2,7 +2,7 @@ import Game from "./Game";
 import * as p5 from 'p5';
 import {N_FOOD, TICKS_PER_FRAME} from "./Constants";
 import Button from "./Button";
-import {round} from "./Helpers";
+import {round} from "./Helpers/Helpers";
 
 
 let s = (p5) => {

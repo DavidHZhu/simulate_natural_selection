@@ -1,4 +1,4 @@
-import {getRandomFloat, getRandomInt} from "./Helpers";
+import {getRandomFloat, getRandomInt} from "./Helpers/Helpers";
 import {SKILL_POINTS, SMALL_MUTATIONS} from "./Constants";
 
 export default class Genes {

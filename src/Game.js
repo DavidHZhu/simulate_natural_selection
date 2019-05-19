@@ -1,7 +1,7 @@
 import Creature from "./Creature";
 import Food from "./Food";
 import {BLUE, MIN_SIZE, N_FOOD, RED} from "./Constants";
-import {getRandomInt} from "./Helpers";
+import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
 
 export default class Game {

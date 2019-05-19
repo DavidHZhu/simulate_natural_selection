@@ -1,4 +1,4 @@
-import {getDistance, getNearestDetails, getRandomInt} from "./Helpers";
+import {getDistance, getNearestDetails, getRandomInt} from "./Helpers/Helpers";
 import {
   MUTATE_CHANCE,
   PREDATION,
