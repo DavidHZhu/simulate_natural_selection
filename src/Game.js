@@ -126,18 +126,21 @@ export default class Game {
   }
 
   csv(p5) {
-    const output = {
-      num_generations: this.generations.length,
-      headers: ["Generation","Distance","Speed","Size","Sense"],
-      generations: []
-    };
-
+    // Table of info
     let csvRows = new p5.Table();
-    csvRows.addRow(output.headers);
-
+    csvRows.addColumn("Generation");
+    csvRows.addColumn("Distance");
+    csvRows.addColumn("Speed");
+    csvRows.addColumn("Size");
+    csvRows.addColumn("Sense");
+    
     this.generations.forEach((gen) => {
-      const row = [gen.gen, gen.avg_distance, gen.avg_speed, gen.avg_size, gen.avg_sense];
-      csvRows.addRow(row);
+      let row = csvRows.addRow();
+      row.set("Generation", gen.gen);
+      row.set("Distance", gen.avg_distance);
+      row.set("Speed", gen.avg_speed);
+      row.set("Size", gen.avg_size);
+      row.set("Sense", gen.avg_sense);
     });
     
     return csvRows;

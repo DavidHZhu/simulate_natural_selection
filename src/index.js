@@ -24,8 +24,8 @@ let s = (p5) => {
 
     // To be added
     buttons.push(new Button(10,100,100,13, "Download CSV", () => {
-      //p5.save(game.csv(), `ns_${game.gen}gens.csv`);
-      console.log(game.csv(p5));
+      p5.save(game.csv(p5), `ns_${game.gen}gens.csv`);
+      //console.log(game.csv(p5));
     }));
 
 
