@@ -143,7 +143,6 @@ export default class Game {
     });
     
     return csvTable;
-
   }
 
   getStats() {
