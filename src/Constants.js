@@ -12,6 +12,7 @@ export const DEAD_BREED = true; // do creatures that are eaten get to breed
 
 // Game
 export const N_FOOD = 20;
+export const N_CREATURES = 20;
 export const PREDATION = true;
 export const PREDATION_SIZE_MARKUP = 1.05;
 export const PREDATION_SPEED_MARKUP = 0.9;

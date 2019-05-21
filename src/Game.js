@@ -5,13 +5,14 @@ import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
 
 export default class Game {
-  constructor(width, height, n_food) {
+  constructor(width, height, n_food, n_creatures) {
     this.width = width;
     this.height = height;
     this.generations = [];
     this.gen = 0;
 
     this.randomGen(n_food);
+    this.genFood(n_creatures);
 
   }
 
@@ -80,20 +81,18 @@ export default class Game {
     this.genFood(N_FOOD);
   }
 
-  randomGen(n) {
+  randomGen(n_food) {
     this.creatures = [];
 
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n_food; i++) {
       this.creatures.push(new Creature(getRandomInt(this.width), getRandomInt(this.height), Genes.randomGenes()))
     }
-
-    this.genFood(n);
   }
 
-  genFood(n) {
+  genFood(n_creatures) {
     this.food = [];
 
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n_creatures; i++) {
       this.food.push(new Food(getRandomInt(this.width), getRandomInt(this.height)));
     }
   }
@@ -127,15 +126,15 @@ export default class Game {
 
   csv(p5) {
     // Table of info
-    let csvRows = new p5.Table();
-    csvRows.addColumn("Generation");
-    csvRows.addColumn("Distance");
-    csvRows.addColumn("Speed");
-    csvRows.addColumn("Size");
-    csvRows.addColumn("Sense");
+    let csvTable = new p5.Table();
+    csvTable.addColumn("Generation");
+    csvTable.addColumn("Distance");
+    csvTable.addColumn("Speed");
+    csvTable.addColumn("Size");
+    csvTable.addColumn("Sense");
     
     this.generations.forEach((gen) => {
-      let row = csvRows.addRow();
+      let row = csvTable.addRow();
       row.set("Generation", gen.gen);
       row.set("Distance", gen.avg_distance);
       row.set("Speed", gen.avg_speed);
@@ -143,10 +142,9 @@ export default class Game {
       row.set("Sense", gen.avg_sense);
     });
     
-    return csvRows;
+    return csvTable;
 
   }
-
 
   getStats() {
     let avg_size = 0;

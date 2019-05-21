@@ -1,6 +1,6 @@
 import Game from "./Game";
 import * as p5 from 'p5';
-import {N_FOOD, TICKS_PER_FRAME} from "./Constants";
+import {N_FOOD, N_CREATURES, TICKS_PER_FRAME} from "./Constants";
 import Button from "./Button";
 import {round} from "./Helpers/Helpers";
 
@@ -12,7 +12,7 @@ let s = (p5) => {
   const buttons = [];
 
   p5.setup = () =>{
-    game = new Game(window.innerWidth, window.innerHeight, N_FOOD);
+    game = new Game(window.innerWidth, window.innerHeight, N_FOOD, N_CREATURES);
     cur_speed = TICKS_PER_FRAME;
 
     p5.createCanvas(window.innerWidth,window.innerHeight);
