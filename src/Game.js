@@ -1,18 +1,18 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, DEAD_BREED, MIN_SIZE, N_FOOD, RED} from "./Constants";
+import {BLUE, DEAD_BREED, MIN_SIZE, N_FOOD, N_CREATURES, RED} from "./Constants";
 import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
 
 export default class Game {
-  constructor(width, height, n_food, n_creatures) {
+  constructor(width, height) {
     this.width = width;
     this.height = height;
     this.generations = [];
     this.gen = 0;
 
-    this.randomGen(n_food);
-    this.genFood(n_creatures);
+    this.randomGen(N_CREATURES);
+    this.genFood(N_FOOD);
 
   }
 
@@ -81,18 +81,18 @@ export default class Game {
     this.genFood(N_FOOD);
   }
 
-  randomGen(n_food) {
+  randomGen(n_creatures) {
     this.creatures = [];
 
-    for (let i = 0; i < n_food; i++) {
+    for (let i = 0; i < n_creatures; i++) {
       this.creatures.push(new Creature(getRandomInt(this.width), getRandomInt(this.height), Genes.randomGenes()))
     }
   }
 
-  genFood(n_creatures) {
+  genFood(n_food) {
     this.food = [];
 
-    for (let i = 0; i < n_creatures; i++) {
+    for (let i = 0; i < n_food; i++) {
       this.food.push(new Food(getRandomInt(this.width), getRandomInt(this.height)));
     }
   }

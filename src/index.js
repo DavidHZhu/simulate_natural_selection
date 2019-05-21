@@ -12,7 +12,7 @@ let s = (p5) => {
   const buttons = [];
 
   p5.setup = () =>{
-    game = new Game(window.innerWidth, window.innerHeight, N_FOOD, N_CREATURES);
+    game = new Game(window.innerWidth, window.innerHeight);
     cur_speed = TICKS_PER_FRAME;
 
     p5.createCanvas(window.innerWidth,window.innerHeight);
