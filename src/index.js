@@ -22,6 +22,12 @@ let s = (p5) => {
       p5.saveJSON(game.json(), `ns_${game.gen}gens.json`);
     }));
 
+    // To be added
+    buttons.push(new Button(10,100,100,13, "Download CSV", () => {
+      game.csv();
+    }));
+
+
     buttons.push(new Button(10,60,50,13, "<-", () => {
       if (cur_speed > 0) cur_speed--;
     }));
@@ -63,12 +69,12 @@ let s = (p5) => {
     p5.text(`Gen ${game.gen}`, 10, 50);
     p5.textSize(15);
 
-    p5.text(`${stats.n} creatures`, 10, 110);
+    p5.text(`${stats.n} creatures`, 10, 130);
     if (stats.n > 0) {
-      p5.text(`Average size ${round(stats.avg_size, 2)}`, 10, 130);
-      p5.text(`Average speed ${round(stats.avg_speed, 2)}`, 10, 150);
-      p5.text(`Average distance ${round(stats.avg_distance, 2)}`, 10, 170);
-      p5.text(`Average sense ${round(stats.avg_sense, 2)}`, 10, 190);
+      p5.text(`Average size ${round(stats.avg_size, 2)}`, 10, 150);
+      p5.text(`Average speed ${round(stats.avg_speed, 2)}`, 10, 170);
+      p5.text(`Average distance ${round(stats.avg_distance, 2)}`, 10, 190);
+      p5.text(`Average sense ${round(stats.avg_sense, 2)}`, 10, 210);
     } else {
       p5.text(`EXTINCT`, 10, 130);
     }

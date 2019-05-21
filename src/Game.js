@@ -5,13 +5,13 @@ import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
 
 export default class Game {
-  constructor(width, height, n) {
+  constructor(width, height, n_food) {
     this.width = width;
     this.height = height;
     this.generations = [];
     this.gen = 0;
 
-    this.randomGen(n);
+    this.randomGen(n_food);
 
   }
 
@@ -106,6 +106,7 @@ export default class Game {
 
     this.generations.forEach((gen) => {
       output.generations.push({
+        gen: gen.gen,
         avg_distance: gen.avg_distance,
         avg_speed: gen.avg_speed,
         avg_size: gen.avg_size,
@@ -123,6 +124,42 @@ export default class Game {
 
     return output;
   }
+
+  // Ghetto implementation, can probably refactor using join()
+  csv() {
+    const output = {
+      num_generations: this.generations.length,
+      headers: ["Generation","Distance","Speed","Size","Sense"],
+      generations: [],
+      csvRows: []
+    };
+
+    this.generations.forEach((gen) => {
+      const row = [gen.gen, gen.avg_distance, gen.avg_speed, gen.avg_size, gen.avg_sense];
+      output.generations.push(row);
+    });
+    
+    output.csvRows.push(output.headers);
+    output.csvRows.push(output.generations);
+    const objectToCSV = output.csvRows.join("\n");
+    return downloadCSV(objectToCSV);
+    //return output.csvRows.join("\n");
+
+  }
+
+  // Ghetto download that uses a hidden 'a' tag
+  downloadCSV(data) {
+    const downloadBlob = new Blob([data], { type: 'text/csv'});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('hidden', '');
+    a.setAttribute('href', url);
+    a.setAttribute('download', `ns_${this.generations.length}.csv`);
+    document.body.appendChild('a');
+    a.click();
+    document.body.removeChild('a');
+}
+      
 
   getStats() {
     let avg_size = 0;
