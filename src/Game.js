@@ -1,17 +1,19 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, DEAD_BREED, MIN_SIZE, N_FOOD, RED} from "./Constants";
+import {BLUE, DEAD_BREED, N_FOOD, N_CREATURES} from "./Constants";
 import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
+import * as p5 from "p5";
 
 export default class Game {
-  constructor(width, height, n) {
+  constructor(width, height) {
     this.width = width;
     this.height = height;
     this.generations = [];
     this.gen = 0;
 
-    this.randomGen(n);
+    this.randomGen(N_CREATURES);
+    this.genFood(N_FOOD);
 
   }
 
@@ -80,20 +82,18 @@ export default class Game {
     this.genFood(N_FOOD);
   }
 
-  randomGen(n) {
+  randomGen(n_creatures) {
     this.creatures = [];
 
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n_creatures; i++) {
       this.creatures.push(new Creature(getRandomInt(this.width), getRandomInt(this.height), Genes.randomGenes()))
     }
-
-    this.genFood(n);
   }
 
-  genFood(n) {
+  genFood(n_food) {
     this.food = [];
 
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n_food; i++) {
       this.food.push(new Food(getRandomInt(this.width), getRandomInt(this.height)));
     }
   }
@@ -106,6 +106,7 @@ export default class Game {
 
     this.generations.forEach((gen) => {
       output.generations.push({
+        gen: gen.gen,
         avg_distance: gen.avg_distance,
         avg_speed: gen.avg_speed,
         avg_size: gen.avg_size,
@@ -122,6 +123,27 @@ export default class Game {
     });
 
     return output;
+  }
+
+  csv() {
+    // Table of info
+    let csvTable = new p5.Table();
+    csvTable.addColumn("Generation");
+    csvTable.addColumn("Distance");
+    csvTable.addColumn("Speed");
+    csvTable.addColumn("Size");
+    csvTable.addColumn("Sense");
+    
+    this.generations.forEach((gen) => {
+      let row = csvTable.addRow();
+      row.set("Generation", gen.gen);
+      row.set("Distance", gen.avg_distance);
+      row.set("Speed", gen.avg_speed);
+      row.set("Size", gen.avg_size);
+      row.set("Sense", gen.avg_sense);
+    });
+    
+    return csvTable;
   }
 
   getStats() {
