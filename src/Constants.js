@@ -11,6 +11,7 @@ export const MIN_SPEED = 0.5;
 
 // Game
 export const N_FOOD = 20;
+export const N_CREATURES = 20;
 export const PREDATION = true;
 export const PREDATION_SIZE_MARKUP = 1.05;
 export const PREDATION_SPEED_MARKUP = 0.9;
