@@ -2,7 +2,7 @@
 export const MUTATE_CHANCE = 0.05;
 export const SMALL_MUTATIONS = true;
 export const DEAD_BREED = true; // do creatures that are eaten get to breed
-export const DIE_AFTER_TIRED = false; // dont enable this with disabled dead breed;
+export const DEAD_BODIES = false; // die after tired dont enable this with disabled dead breed;
 
 export const USE_KINETIC_ENERGY = false;
 export const KINETIC_ENERGY = 100;

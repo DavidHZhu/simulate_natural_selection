@@ -1,6 +1,6 @@
 import {getDistance, getNearestDetails, getRandomInt} from "./Helpers/Helpers";
 import {
-  DIE_AFTER_TIRED,
+  DEAD_BODIES,
   KINETIC_ENERGY, MIN_SPEED,
   MUTATE_CHANCE,
   PREDATION,
@@ -77,7 +77,7 @@ export default class Creature {
 
     if (this.distance_remaining <= 0) {
       this.speed = 0;
-      if (DIE_AFTER_TIRED) {
+      if (DEAD_BODIES) {
         this.dead = true;
       }
     }
