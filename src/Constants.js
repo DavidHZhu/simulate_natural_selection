@@ -1,14 +1,13 @@
 // Creatures
 export const MUTATE_CHANCE = 0.1;
 export const SMALL_MUTATIONS = true;
+export const DEAD_BREED = true; // do creatures that are eaten get to breed
 
-export const USE_KINETIC_ENERGY = true;
+export const USE_KINETIC_ENERGY = false;
 export const KINETIC_ENERGY = 100;
 export const MIN_SIZE = 5;
-export const SKILL_POINTS = 25;
-export const MIN_SPEED = 0;
-
-export const DEAD_BREED = true; // do creatures that are eaten get to breed
+export const SKILL_POINTS = 20;
+export const MIN_SPEED = 0.5;
 
 // Game
 export const N_FOOD = 20;

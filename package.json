@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "echo 'Starting Webpack dev server! \n' && webpack-dev-server --open --mode development",
-    "watch": "webpack --colors --progress --watch"
+    "watch": "webpack --colors --progress --watch",
+    "build": "webpack --mode production"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
