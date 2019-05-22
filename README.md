@@ -5,7 +5,8 @@
 
 Clone the repo and run `npm install`
 
-Start the server with `npm start`
+Start the server with `.\node_modules\.bin\webpack-dev-server --open --mode development
+`
 
 **Mac/Linux**
 
