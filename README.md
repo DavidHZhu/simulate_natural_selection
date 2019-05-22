@@ -1,4 +1,4 @@
-# Simulate Natural Selection
+# DarwinSim
 
 ## Installation
 **Windows**
