@@ -17,6 +17,9 @@ export const PREDATION = true;
 export const PREDATION_SIZE_MARKUP = 1.05;
 export const PREDATION_SPEED_MARKUP = 0.9;
 
+export const SIN_FOOD_AMOUNT = true;
+export const MIN_FOOD = 2;
+
 // Visual
 export const FOOD_SIZE = 20;
 export const TICKS_PER_FRAME = 1;

@@ -1,6 +1,6 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, DEAD_BREED, N_FOOD, N_CREATURES} from "./Constants";
+import {BLUE, DEAD_BREED, N_FOOD, N_CREATURES, SIN_FOOD_AMOUNT, MIN_FOOD} from "./Constants";
 import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
 import * as p5 from "p5";
@@ -14,7 +14,6 @@ export default class Game {
 
     this.randomGen(N_CREATURES);
     this.genFood(N_FOOD);
-
   }
 
   draw(p5) {
@@ -79,7 +78,13 @@ export default class Game {
       creature.y = getRandomInt(this.height);
     });
 
-    this.genFood(N_FOOD);
+    if (SIN_FOOD_AMOUNT) {
+      const n_food = N_FOOD/2 * Math.sin(this.gen/100) + N_FOOD/2 + MIN_FOOD;
+      console.log(Math.floor(n_food));
+      this.genFood(Math.floor(n_food));
+    } else {
+      this.genFood(N_FOOD);
+    }
   }
 
   randomGen(n_creatures) {
