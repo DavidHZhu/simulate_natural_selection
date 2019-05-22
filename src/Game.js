@@ -1,6 +1,6 @@
 import Creature from "./Creature";
 import Food from "./Food";
-import {BLUE, DEAD_BREED, MIN_SIZE, N_FOOD, N_CREATURES, RED} from "./Constants";
+import {BLUE, DEAD_BREED, N_FOOD, N_CREATURES} from "./Constants";
 import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
 import * as p5 from "p5";
