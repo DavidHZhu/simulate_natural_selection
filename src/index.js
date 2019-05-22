@@ -1,6 +1,6 @@
 import Game from "./Game";
 import * as p5 from 'p5';
-import {N_FOOD, N_CREATURES, TICKS_PER_FRAME} from "./Constants";
+import {TICKS_PER_FRAME} from "./Constants";
 import Button from "./Button";
 import {round} from "./Helpers/Helpers";
 
@@ -22,12 +22,9 @@ let s = (p) => {
       p.saveJSON(game.json(), `ns_${game.gen}gens.json`);
     }));
 
-    // To be added
     buttons.push(new Button(10,100,100,13, "Download CSV", () => {
       p.save(game.csv(p), `ns_${game.gen}gens.csv`);
-      //console.log(game.csv(p5));
     }));
-
 
     buttons.push(new Button(10,60,50,13, "<-", () => {
       if (cur_speed > 0) cur_speed--;
@@ -46,7 +43,6 @@ let s = (p) => {
       if (cur_speed < 0) {
         cur_speed = 0;
       }
-      // console.log("SPEED: " + cur_speed)
     });
   };
   p.draw = () => {
