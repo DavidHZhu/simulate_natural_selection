@@ -5,26 +5,26 @@ import Button from "./Button";
 import {round} from "./Helpers/Helpers";
 
 
-let s = (p5) => {
+let s = (p) => {
   let game;
   let cur_speed;
   // let ANGLE = 0;
   const buttons = [];
 
-  p5.setup = () =>{
+  p.setup = () =>{
     game = new Game(window.innerWidth, window.innerHeight);
     cur_speed = TICKS_PER_FRAME;
 
-    p5.createCanvas(window.innerWidth,window.innerHeight);
-    p5.background(40);
+    p.createCanvas(window.innerWidth,window.innerHeight);
+    p.background(40);
 
     buttons.push(new Button(10,80,100,13, "Download JSON️", () => {
-      p5.saveJSON(game.json(), `ns_${game.gen}gens.json`);
+      p.saveJSON(game.json(), `ns_${game.gen}gens.json`);
     }));
 
     // To be added
     buttons.push(new Button(10,100,100,13, "Download CSV", () => {
-      p5.save(game.csv(p5), `ns_${game.gen}gens.csv`);
+      p.save(game.csv(p), `ns_${game.gen}gens.csv`);
       //console.log(game.csv(p5));
     }));
 
@@ -49,41 +49,41 @@ let s = (p5) => {
       // console.log("SPEED: " + cur_speed)
     });
   };
-  p5.draw = () => {
+  p.draw = () => {
     const stats = game.getStats();
     // ANGLE += 0.01;
-    p5.background(0);
+    p.background(0);
     // p5.camera(80, -1.00, 80, 0, 0, 0, 0, 1, 0);
     // p5.rotateY(ANGLE);
     // p5.box(100, 10, 100);
-    game.draw(p5);
+    game.draw(p);
     if (stats.n > 0) {
       for (let i = 0; i < cur_speed; i++) {
         game.tick();
       }
     }
 
-    p5.textSize(20);
-    p5.fill(255, 255, 255);
-    p5.text(`Speed ${cur_speed}x`, 10, 30);
-    p5.textSize(15);
-    p5.text(`Gen ${game.gen}`, 10, 50);
-    p5.textSize(15);
+    p.textSize(20);
+    p.fill(255, 255, 255);
+    p.text(`Speed ${cur_speed}x`, 10, 30);
+    p.textSize(15);
+    p.text(`Gen ${game.gen}`, 10, 50);
+    p.textSize(15);
 
-    p5.text(`${stats.n} creatures`, 10, 130);
+    p.text(`${stats.n} creatures`, 10, 130);
     if (stats.n > 0) {
-      p5.text(`Average size ${round(stats.avg_size, 2)}`, 10, 150);
-      p5.text(`Average speed ${round(stats.avg_speed, 2)}`, 10, 170);
-      p5.text(`Average distance ${round(stats.avg_distance, 2)}`, 10, 190);
-      p5.text(`Average sense ${round(stats.avg_sense, 2)}`, 10, 210);
+      p.text(`Average size ${round(stats.avg_size, 2)}`, 10, 150);
+      p.text(`Average speed ${round(stats.avg_speed, 2)}`, 10, 170);
+      p.text(`Average distance ${round(stats.avg_distance, 2)}`, 10, 190);
+      p.text(`Average sense ${round(stats.avg_sense, 2)}`, 10, 210);
     } else {
-      p5.text(`EXTINCT`, 10, 130);
+      p.text(`EXTINCT`, 10, 130);
     }
-    buttons.forEach((button) => button.draw(p5));
+    buttons.forEach((button) => button.draw(p));
   };
 
-  p5.mousePressed = () => {
-    buttons.forEach((button) => button.checkPress(p5.mouseX, p5.mouseY));
+  p.mousePressed = () => {
+    buttons.forEach((button) => button.checkPress(p.mouseX, p.mouseY));
   }
 };
 

@@ -3,6 +3,7 @@ import Food from "./Food";
 import {BLUE, DEAD_BREED, MIN_SIZE, N_FOOD, N_CREATURES, RED} from "./Constants";
 import {getRandomInt} from "./Helpers/Helpers";
 import Genes from "./Genes";
+import * as p5 from "p5";
 
 export default class Game {
   constructor(width, height) {
@@ -124,7 +125,7 @@ export default class Game {
     return output;
   }
 
-  csv(p5) {
+  csv() {
     // Table of info
     let csvTable = new p5.Table();
     csvTable.addColumn("Generation");
